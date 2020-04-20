@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>电影抖屏效果demo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+  <section class="section section-01">
+    <h2>demo 1：使用gif</h2>
+    <p>优点：简单，直接导个gif引入就完事。</p>
+    <p>弊端：图片太大了，demo只有一个slogan动图都去到了866KB，太多的gif对页面的渲染速度有影响，用户体验不是最佳。</p>
+    <div class="img">
+      <img src="img/slogan.gif">
+    </div>
+  </section>
+
+  <section class="section section-02">
+    <h2>demo 2：使用定时器（更换图片src）</h2>
+    <p>优点：简单，批量导出每一帧的png素材出来，定时替换图片的地址就完事（而且每一帧的素材都不会很大）。</p>
+    <p>弊端：需要频繁的更新DOM，性能方面开销太大，并且如果不注意定时器回收，容易造成内存泄露。</p>
+    <div class="img">
+      <img src="img/0.png">
+    </div>
+  </section>
+  <script type="text/javascript">
+    const slogan = {
+      index: 0,
+      indexMax: 29,
+      time: 0,
+      dom: document.querySelector('.section-02 .img img'),
+      auto(speed){
+        let change = setInterval( () => {
+          // 动态调整图片帧显示
+          this.index < this.indexMax ? this.index++ : this.index = 0;
+          this.dom.setAttribute('src', `img/${this.index}.png`);
+
+          // 每运行10次动画周期后销毁定时器，进行垃圾回收后再重新创建
+          this.time += speed;
+          if ( this.time > this.indexMax * speed * 10) {
+            clearInterval(change);
+            change = null;
+            this.time = 0;
+            this.auto(speed);
+          }
+        }, speed);
+      }
+    }
+    slogan.auto(100);
+  </script>
+
+  <section class="section section-03">
+    <h2>demo 3：使用定时器（更换className）</h2>
+    <p>优缺点跟demo 2类似……</p>
+    <div class="img bg"></div>
+  </section>
+  <script type="text/javascript">
+    const sloganBg = {
+      index: 0,
+      indexMax: 29,
+      time: 0,
+      dom: document.querySelector('.section-03 .bg'),
+      auto(speed){
+        let change = setInterval( () => {
+          // 先移除上一帧的样式
+          this.dom.classList.remove(`bg-${this.index}`);
+
+          // 动态调整图片帧显示
+          this.index < this.indexMax ? this.index++ : this.index = 0;
+          this.dom.classList.add(`bg-${this.index}`);
+
+          // 每运行10次动画周期后销毁定时器，进行垃圾回收后再重新创建
+          this.time += speed;
+          if ( this.time > this.indexMax * speed * 10) {
+            clearInterval(change);
+            change = null;
+            this.time = 0;
+            this.auto(speed);
+          }
+        }, speed);
+      }
+    }
+    sloganBg.auto(100);
+  </script>
+
+  <section class="section section-04">
+    <h2>demo 4：css3逐帧动画</h2>
+    <p>优点：简单，性能好，生成雪碧图，然后写个动画就完事。</p>
+    <p>弊端：部分古董设备不兼容，然后还有个问题，就是像demo里的这个素材，做成雪碧图贼他妈大（2.24MB，还不如用gif），所以素材太大的情况下，最好不要用这个办法来搞。</p>
+    <div class="img bg go"></div>
+  </section>
+
+  <section class="section section-05">
+    <h2>demo 5：生成canvas</h2>
+    <p>优点：设计师处理好每一帧，导出每一帧的png素材出来，这样每一帧的素材都不会很大。并且canvas在性能上有天然的优势，对于高频率的更新渲染，用canvas重绘来实现效果更佳。</p>
+    <p>弊端：古董机对canvas的兼容性不太友好，如果可以抛弃这些古董用户的话，还是推荐这个方案！</p>
+    <div class="img"></div>
+  </section>
+  <script type="text/javascript">
+    const sloganCanvas = {
+      index: 0,
+      indexMax: 29,
+      canvasWidth: 801,
+      canvasHeight: 301,
+      init(){
+        // 创建画布
+        const canvas = document.createElement('canvas');
+        canvas['width'] = this.canvasWidth;
+        canvas['height'] = this.canvasHeight;
+        document.querySelector('.section-05 .img').appendChild(canvas);
+
+        // 绘制内容
+        this.draw(this.index, canvas);
+      },
+      draw(index, canvas){
+        const context = canvas.getContext('2d');
+        const img = new Image();
+        img.onload = () => {
+          // 绘制前先清空画布
+          context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+          // 然后再绘制当前帧
+          context.drawImage(img, 0, 0, this.canvasWidth, this.canvasHeight);
+
+          // 画完更换下一帧的索引
+          this.index < this.indexMax ? this.index++ : this.index = 0;
+          setTimeout( () => {
+            this.draw(this.index, canvas);
+          }, 100);
+        }
+        img.src = `img/${this.index}.png`;
+      }
+    }
+    sloganCanvas.init();
+  </script>
+
+</body>
+</html>

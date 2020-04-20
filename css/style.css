@@ -1,0 +1,125 @@
+body {
+  padding: 0 20px;
+}
+.section {
+  color: #333;
+  margin-bottom: 50px;
+}
+.section .img {
+  width: 801px;
+  height: 301px;
+  background-color: #000;
+}
+.section .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*雪碧背景图*/
+.bg {
+  background-image: url('../img/sprites.png');
+  background-repeat: no-repeat;
+}
+.bg.bg-0 {
+  background-position: -0 -0;
+}
+.bg.bg-1 {
+  background-position: -0 -301px;
+}
+.bg.bg-2 {
+  background-position: -0 -602px;
+}
+.bg.bg-3 {
+  background-position: -0 -903px;
+}
+.bg.bg-4 {
+  background-position: -0 -1204px;
+}
+.bg.bg-5 {
+  background-position: -0 -1505px;
+}
+.bg.bg-6 {
+  background-position: -0 -1806px;
+}
+.bg.bg-7 {
+  background-position: -0 -2107px;
+}
+.bg.bg-8 {
+  background-position: -0 -2408px;
+}
+.bg.bg-9 {
+  background-position: -0 -2709px;
+}
+.bg.bg-10 {
+  background-position: -0 -3010px;
+}
+.bg.bg-11 {
+  background-position: -0 -3311px;
+}
+.bg.bg-12 {
+  background-position: -0 -3612px;
+}
+.bg.bg-13 {
+  background-position: -0 -3913px;
+}
+.bg.bg-14 {
+  background-position: -0 -4214px;
+}
+.bg.bg-15 {
+  background-position: -0 -4515px;
+}
+.bg.bg-16 {
+  background-position: -0 -4816px;
+}
+.bg.bg-17 {
+  background-position: -0 -5117px;
+}
+.bg.bg-18 {
+  background-position: -0 -5418px;
+}
+.bg.bg-19 {
+  background-position: -0 -5719px;
+}
+.bg.bg-20 {
+  background-position: -0 -6020px;
+}
+.bg.bg-21 {
+  background-position: -0 -6321px;
+}
+.bg.bg-22 {
+  background-position: -0 -6622px;
+}
+.bg.bg-23 {
+  background-position: -0 -6923px;
+}
+.bg.bg-24 {
+  background-position: -0 -7224px;
+}
+.bg.bg-25 {
+  background-position: -0 -7525px;
+}
+.bg.bg-26 {
+  background-position: -0 -7826px;
+}
+.bg.bg-27 {
+  background-position: -0 -8127px;
+}
+.bg.bg-28 {
+  background-position: -0 -8428px;
+}
+.bg.bg-29 {
+  background-position: -0 -8729px;
+}
+
+
+/*逐帧动画*/
+.go {
+  background-image: url('../img/sprites.png');
+  background-repeat: no-repeat;
+  animation: go steps(29, end) 3s infinite;
+}
+@keyframes go {
+  100% {
+    background-position: -0 -8729px;
+}
